@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import initialDataList from "./initialDataList";
 import { Card, Flex } from "antd";
 
@@ -9,11 +9,12 @@ function App() {
   const [selectedItem, setSelectedItem] = useState({});
 
   const handleButtonClick = (item) => {
+    const typeKey = item.type.toLowerCase();
     setInitialData((prev) => prev.filter((data) => data.name !== item.name));
 
     setSelectedItem((prev) => ({
       ...prev,
-      [item.name]: [...(prev(item.type) || []), item],
+      [typeKey]: [...(prev[typeKey] || []), item],
     }));
 
     timers.current[item.name] = setTimeout(() => {
@@ -22,13 +23,14 @@ function App() {
   };
 
   const moveBackSelectedItem = (item) => {
+    const typeKey = item.type.toLowerCase();
     setInitialData((prev) => [...prev, item]);
 
     setSelectedItem((prev) => ({
       ...prev,
-      [item.type]: [
-        ...(prev[item.type] || []).filter((data) => data.name !== item.name),
-      ],
+      [typeKey]: (prev[typeKey] || []).filter(
+        (data) => data.name !== item.name
+      ),
     }));
 
     if (timers.current[item.name]) {
@@ -54,15 +56,16 @@ function App() {
           </div>
         </Card>
 
-        {["fruit", "vegetable"].map((type) => {
+        {["fruit", "vegetable"].map((type) => (
           <Card
+            key={type}
             className="card-style"
             title={type.charAt(0).toUpperCase() + type.slice(1)}
           >
-            <div className="button-container ">
+            <div className="button-container">
               {(selectedItem[type] || []).map((item) => (
                 <button
-                  key={item.id}
+                  key={item.name}
                   className="button-style"
                   onClick={() => moveBackSelectedItem(item)}
                 >
@@ -70,8 +73,8 @@ function App() {
                 </button>
               ))}
             </div>
-          </Card>;
-        })}
+          </Card>
+        ))}
       </Flex>
     </>
   );
