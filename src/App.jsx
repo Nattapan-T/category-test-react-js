@@ -6,38 +6,30 @@ import { Card, Flex } from "antd";
 function App() {
   const timers = useRef({});
   const [initialData, setInitialData] = useState(initialDataList);
-  const [fruitList, setFruitList] = useState([]);
-  const [vegetableList, setVegetableList] = useState([]);
+  const [selectedItem, setSelectedItem] = useState({});
 
   const handleButtonClick = (item) => {
-    setInitialData((prevData) =>
-      prevData.filter((data) => data.name !== item.name)
-    );
+    setInitialData((prev) => prev.filter((data) => data.name !== item.name));
 
-    const selectedItemList =
-      item.type.toLowerCase() === "fruit" ? setFruitList : setVegetableList;
-    selectedItemList((prevList) => [...prevList, item]);
+    setSelectedItem((prev) => ({
+      ...prev,
+      [item.name]: [...(prev(item.type) || []), item],
+    }));
 
     timers.current[item.name] = setTimeout(() => {
-      setInitialData((prev) => [...prev, item]);
-      selectedItemList((prevList) =>
-        prevList.filter((data) => data.name !== item.name)
-      );
+      moveBackSelectedItem(item);
     }, 5000);
   };
 
-  const moveBackSelectedItem = (item, from) => {
+  const moveBackSelectedItem = (item) => {
     setInitialData((prev) => [...prev, item]);
 
-    if (from === "fruit") {
-      setFruitList((prevList) =>
-        prevList.filter((data) => data.name !== item.name)
-      );
-    } else if (from === "vegetable") {
-      setVegetableList((prevList) =>
-        prevList.filter((data) => data.name !== item.name)
-      );
-    }
+    setSelectedItem((prev) => ({
+      ...prev,
+      [item.type]: [
+        ...(prev[item.type] || []).filter((data) => data.name !== item.name),
+      ],
+    }));
 
     if (timers.current[item.name]) {
       clearTimeout(timers.current[item.name]);
@@ -62,33 +54,24 @@ function App() {
           </div>
         </Card>
 
-        <Card className="card-style" title="Fruit">
-          <div className="button-container ">
-            {fruitList.map((item) => (
-              <button
-                key={item.id}
-                className="button-style"
-                onClick={() => moveBackSelectedItem(item, "fruit")}
-              >
-                {item.name}
-              </button>
-            ))}
-          </div>
-        </Card>
-
-        <Card className="card-style" title="Vegetable">
-          <div className="button-container ">
-            {vegetableList.map((item) => (
-              <button
-                key={item.id}
-                className="button-style"
-                onClick={() => moveBackSelectedItem(item, "vegetable")}
-              >
-                {item.name}
-              </button>
-            ))}
-          </div>
-        </Card>
+        {["fruit", "vegetable"].map((type) => {
+          <Card
+            className="card-style"
+            title={type.charAt(0).toUpperCase() + type.slice(1)}
+          >
+            <div className="button-container ">
+              {(selectedItem[type] || []).map((item) => (
+                <button
+                  key={item.id}
+                  className="button-style"
+                  onClick={() => moveBackSelectedItem(item)}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
+          </Card>;
+        })}
       </Flex>
     </>
   );
