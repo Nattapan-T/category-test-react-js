@@ -9,6 +9,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": ["**/*.ts"],
+  "include": ["server/**/*.ts", "test/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -1,4 +1,4 @@
-import { transformData } from "../src/utils/transformData";
+import { transformData } from "../utils/transformData";
 
 //จัดกลุ่มเทส test case
 describe("transformData", () => {
@@ -63,5 +63,10 @@ describe("transformData", () => {
         },
       },
     });
+  });
+
+  it("should return empty object if users array is empty", () => {
+    const result = transformData([]);
+    expect(result).toEqual({});
   });
 });
