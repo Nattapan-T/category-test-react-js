@@ -1,12 +1,41 @@
-# React + Vite
+🗂️ Category Test Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a full-stack application built with:
 
-Currently, two official plugins are available:
+⚛️ React (Frontend)
+Task 1:To Do List
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🛠️ Express + TypeScript (Backend)
+Task2: TransformData
 
-## Expanding the ESLint configuration
+🛠️ Stack Used
+Frontend: React(https://reactjs.org/) + Vite(https://vitejs.dev/)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Backend: Express(https://expressjs.com/) + TypeScript(https://www.typescriptlang.org/)
+
+Testing: Jest(https://jestjs.io/)
+
+📁 Project Structure
+.
+├── client/    # React Frontend
+├── server/    # Express Backend (TypeScript)
+└── README.md
+
+## How to run 
+
+Backend:
+cd server
+npm install
+npm run dev
+
+or see test case with jest
+cd server
+npm test
+
+Frontend:
+cd ../client
+npm install
+npm run dev
+
+📋 To-Do for Production Deployment with Vercel :
+👉 https://categorytest.vercel.app/
